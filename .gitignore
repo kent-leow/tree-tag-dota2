@@ -1,0 +1,53 @@
+# Compiled Particle and Texture Files
+*.vpcf_c
+*.vtex_c
+*.vpc
+*.vmat_c
+
+# Dota 2 Addon Compiled Files
+*.compiled
+
+# Build Outputs
+build/
+dist/
+out/
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# OS Files
+.DS_Store
+Thumbs.db
+.gitkeep
+
+# Temporary Files
+*.tmp
+*.bak
+*~
+*.swp
+*.swo
+
+# Node/npm (if using for build tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python (if using for scripts)
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Local development
+.env
+.env.local
+*.log
+
+# Dependencies
+vcpkg_installed/

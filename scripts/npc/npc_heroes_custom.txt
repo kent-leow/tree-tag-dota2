@@ -1,15 +1,99 @@
 // Dota Heroes File
-// NOTE: This is not for creating new heroes, this is for taking a currently existing hero as a template and overriding
-// the specified key-value combinations.  Use override_hero <hero_to_override> for this.
 "DOTAHeroes"
 {
 	//=================================================================================================================
-	// HERO: Templar Assassin
+	// HERO: Ent (Treant Protector override)
 	//=================================================================================================================
-	"npc_dota_hero_templar_assassin_template"
+	"npc_dota_hero_ent"
 	{
-		"override_hero"				"npc_dota_hero_templar_assassin"			// Hero to override
-		"Ability1"					"templar_assassin_refraction_holdout"		// Ability 1
-		"VisionNighttimeRange"		"1800"										// Range of vision at night time.
+		"override_hero"				"npc_dota_hero_treant"
+		"Ability1"					"ent_hide"
+		"Ability2"					"ent_regrowth"
+		"Ability3"					"ent_blink"
+		"Ability4"					"ent_fortify"
+		"Ability5"					"ent_scout"
+		"ArmorPhysical"				"2"
+		"MovementSpeed"				"290"
+		"StatusHealth"				"500"
+		"StatusMana"				"300"
+		"StatusManaRegen"			"2.0"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"VisionDaytimeRange"		"1400"
+		"VisionNighttimeRange"		"800"
+		"Team"						"Good"
+	}
+
+	//=================================================================================================================
+	// HERO: Infernal Tank (Doom override)
+	//=================================================================================================================
+	"npc_dota_hero_infernal_tank"
+	{
+		"override_hero"				"npc_dota_hero_doom_bringer"
+		"Ability1"					"infernal_cleave"
+		"Ability2"					"infernal_fire_aura"
+		"Ability3"					"infernal_slam"
+		"Ability4"					"infernal_bulwark"
+		"ArmorPhysical"				"6"
+		"MovementSpeed"				"280"
+		"StatusHealth"				"1200"
+		"StatusMana"				"400"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"55"
+		"AttackDamageMax"			"65"
+		"AttackRate"				"1.7"
+		"AttackRange"				"150"
+		"VisionDaytimeRange"		"1800"
+		"VisionNighttimeRange"		"1200"
+		"Team"						"Bad"
+	}
+
+	//=================================================================================================================
+	// HERO: Infernal Stalker (Nightstalker override)
+	//=================================================================================================================
+	"npc_dota_hero_infernal_stalker"
+	{
+		"override_hero"				"npc_dota_hero_night_stalker"
+		"Ability1"					"infernal_charge"
+		"Ability2"					"infernal_ambush"
+		"Ability3"					"infernal_execute"
+		"Ability4"					"infernal_hunt"
+		"ArmorPhysical"				"3"
+		"MovementSpeed"				"320"
+		"StatusHealth"				"800"
+		"StatusMana"				"350"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"65"
+		"AttackDamageMax"			"75"
+		"AttackRate"				"1.4"
+		"AttackRange"				"150"
+		"VisionDaytimeRange"		"1800"
+		"VisionNighttimeRange"		"1400"
+		"Team"						"Bad"
+	}
+
+	//=================================================================================================================
+	// HERO: Infernal Caster (Warlock override)
+	//=================================================================================================================
+	"npc_dota_hero_infernal_caster"
+	{
+		"override_hero"				"npc_dota_hero_warlock"
+		"Ability1"					"infernal_fire_wave"
+		"Ability2"					"infernal_reveal"
+		"Ability3"					"infernal_meteor"
+		"Ability4"					"infernal_fire_trail"
+		"ArmorPhysical"				"2"
+		"MovementSpeed"				"295"
+		"StatusHealth"				"700"
+		"StatusMana"				"600"
+		"StatusManaRegen"			"3.5"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"40"
+		"AttackDamageMax"			"50"
+		"AttackRate"				"1.7"
+		"AttackRange"				"600"
+		"ProjectileSpeed"			"1100"
+		"VisionDaytimeRange"		"1800"
+		"VisionNighttimeRange"		"1200"
+		"Team"						"Bad"
 	}
 }

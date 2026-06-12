@@ -39,4 +39,68 @@ function TestTeamAssignment:test_no_player_left_unassigned()
     end
 end
 
+-- Mock CustomGameEventManager for challenge mode event
+CustomGameEventManager = CustomGameEventManager or {}
+function CustomGameEventManager:Send_ServerToAllClients(event, data) end
+
+function TestTeamAssignment:test_custom_split_2v2()
+    TeamAssignment.configuredInfernals = nil
+    TeamAssignment.configuredEnts = nil
+    local success, err = TeamAssignment:Configure(2, 2)
+    assert(success == true, "2v2 should be valid: " .. (err or ""))
+
+    MockPlayerResource:SetPlayerCount(4)
+    local result = TeamAssignment:AssignTeams()
+
+    assert(result.ents == 2, "Expected 2 Ents, got " .. result.ents)
+    assert(result.infernals == 2, "Expected 2 Infernals, got " .. result.infernals)
+end
+
+function TestTeamAssignment:test_custom_split_1v9()
+    TeamAssignment.configuredInfernals = nil
+    TeamAssignment.configuredEnts = nil
+    local success, err = TeamAssignment:Configure(1, 9)
+    assert(success == true, "1v9 should be valid: " .. (err or ""))
+
+    MockPlayerResource:SetPlayerCount(10)
+    local result = TeamAssignment:AssignTeams()
+
+    assert(result.ents == 9, "Expected 9 Ents, got " .. result.ents)
+    assert(result.infernals == 1, "Expected 1 Infernal, got " .. result.infernals)
+end
+
+function TestTeamAssignment:test_custom_split_3v9()
+    TeamAssignment.configuredInfernals = nil
+    TeamAssignment.configuredEnts = nil
+    local success, err = TeamAssignment:Configure(3, 9)
+    assert(success == true, "3v9 should be valid: " .. (err or ""))
+
+    MockPlayerResource:SetPlayerCount(12)
+    local result = TeamAssignment:AssignTeams()
+
+    assert(result.ents == 9, "Expected 9 Ents")
+    assert(result.infernals == 3, "Expected 3 Infernals")
+end
+
+function TestTeamAssignment:test_validation_rejects_0_infernals()
+    TeamAssignment.configuredInfernals = nil
+    TeamAssignment.configuredEnts = nil
+    local success, err = TeamAssignment:Configure(0, 9)
+    assert(success == false, "0 Infernals should be rejected")
+end
+
+function TestTeamAssignment:test_validation_rejects_4_infernals()
+    TeamAssignment.configuredInfernals = nil
+    TeamAssignment.configuredEnts = nil
+    local success, err = TeamAssignment:Configure(4, 9)
+    assert(success == false, "4 Infernals should be rejected")
+end
+
+function TestTeamAssignment:test_validation_rejects_total_over_12()
+    TeamAssignment.configuredInfernals = nil
+    TeamAssignment.configuredEnts = nil
+    local success, err = TeamAssignment:Configure(3, 10)
+    assert(success == false, "Total > 12 should be rejected")
+end
+
 RunTests(TestTeamAssignment, "TeamAssignment")

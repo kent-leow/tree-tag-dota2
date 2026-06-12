@@ -16,7 +16,7 @@ function TestWinConditions:test_ents_win_on_timer_expiry_with_ent_alive()
     assert(MockGameRules.winner == SETTINGS.ENT_TEAM_ID, "Ents should win on timer expiry")
 end
 
-function TestWinConditions:test_infernals_win_when_all_ents_eliminated()
+function TestWinConditions:test_infernals_win_when_all_ents_dead()
     WinConditions.matchEnded = false
     MockHeroList:SetHeroes({
         { team = SETTINGS.ENT_TEAM_ID, alive = false },
@@ -27,10 +27,10 @@ function TestWinConditions:test_infernals_win_when_all_ents_eliminated()
     WinConditions:CheckEliminationVictory()
 
     assert(WinConditions.matchEnded == true, "Match should end")
-    assert(MockGameRules.winner == SETTINGS.INFERNAL_TEAM_ID, "Infernals should win when all Ents dead")
+    assert(MockGameRules.winner == SETTINGS.INFERNAL_TEAM_ID, "Infernals should win when all Ents are ghosts/dead")
 end
 
-function TestWinConditions:test_ents_win_when_all_infernals_eliminated()
+function TestWinConditions:test_infernal_death_does_not_trigger_ent_win()
     WinConditions.matchEnded = false
     MockHeroList:SetHeroes({
         { team = SETTINGS.ENT_TEAM_ID, alive = true },
@@ -39,20 +39,20 @@ function TestWinConditions:test_ents_win_when_all_infernals_eliminated()
 
     WinConditions:CheckEliminationVictory()
 
-    assert(WinConditions.matchEnded == true, "Match should end")
-    assert(MockGameRules.winner == SETTINGS.ENT_TEAM_ID, "Ents should win when all Infernals dead")
+    assert(WinConditions.matchEnded == false, "Infernal death should NOT trigger Ent win (Infernals always respawn)")
 end
 
-function TestWinConditions:test_no_victory_while_both_teams_alive()
+function TestWinConditions:test_match_continues_while_any_ent_alive()
     WinConditions.matchEnded = false
     MockHeroList:SetHeroes({
         { team = SETTINGS.ENT_TEAM_ID, alive = true },
+        { team = SETTINGS.ENT_TEAM_ID, alive = false },
         { team = SETTINGS.INFERNAL_TEAM_ID, alive = true },
     })
 
     WinConditions:CheckEliminationVictory()
 
-    assert(WinConditions.matchEnded == false, "Match should not end while both teams alive")
+    assert(WinConditions.matchEnded == false, "Match should continue while any Ent alive")
 end
 
 RunTests(TestWinConditions, "WinConditions")

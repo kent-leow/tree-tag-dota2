@@ -7,22 +7,47 @@ function CustomGameEventManager:Send_ServerToAllClients(event, data) end
 
 TestEliminationHandler = {}
 
-function TestEliminationHandler:test_permanent_elimination_state()
+function TestEliminationHandler:test_ent_death_creates_ghost()
     EliminationHandler:Init()
+    EntGhost:Init()
+    InfernalRespawn:Init()
     Snowball:Init()
+    WinConditions.matchEnded = false
 
     local hero = MockHero:New(SETTINGS.ENT_TEAM_ID)
     hero.playerID = 3
     hero.GetPlayerID = function() return 3 end
     hero.GetUnitName = function() return "npc_dota_hero_ent" end
 
+    MockHeroList:SetHeroes({
+        { team = SETTINGS.INFERNAL_TEAM_ID, alive = true },
+    })
+
     EliminationHandler:OnEntEliminated(hero)
 
-    assert(EliminationHandler:IsEliminated(3) == true, "Player should be permanently eliminated")
+    assert(EntGhost:IsGhost(3) == true, "Ent death should create ghost")
+end
+
+function TestEliminationHandler:test_infernal_death_triggers_respawn_timer()
+    EliminationHandler:Init()
+    EntGhost:Init()
+    InfernalRespawn:Init()
+    Snowball:Init()
+
+    local hero = MockHero:New(SETTINGS.INFERNAL_TEAM_ID)
+    hero.playerID = 0
+    hero.alive = false
+    hero.GetPlayerID = function() return 0 end
+
+    EliminationHandler:OnInfernalKilled(hero)
+
+    assert(#InfernalRespawn.pendingRespawns == 1, "Infernal death should trigger respawn timer")
 end
 
 function TestEliminationHandler:test_snowball_trigger()
     EliminationHandler:Init()
+    EntGhost:Init()
+    InfernalRespawn:Init()
     Snowball:Init()
 
     local hero = MockHero:New(SETTINGS.ENT_TEAM_ID)
@@ -39,29 +64,33 @@ function TestEliminationHandler:test_snowball_trigger()
     assert(Snowball.killCount == 1, "Snowball should trigger on Ent elimination")
 end
 
-function TestEliminationHandler:test_win_condition_check_on_death()
+function TestEliminationHandler:test_count_excludes_ghosts()
     EliminationHandler:Init()
+    EntGhost:Init()
+    InfernalRespawn:Init()
     Snowball:Init()
     WinConditions.matchEnded = false
-
-    MockHeroList:SetHeroes({
-        { team = SETTINGS.ENT_TEAM_ID, alive = false },
-        { team = SETTINGS.INFERNAL_TEAM_ID, alive = true },
-    })
 
     local hero = MockHero:New(SETTINGS.ENT_TEAM_ID)
     hero.playerID = 0
     hero.GetPlayerID = function() return 0 end
     hero.GetUnitName = function() return "npc_dota_hero_ent" end
 
-    EliminationHandler:OnEntEliminated(hero)
+    MockHeroList:SetHeroes({
+        { team = SETTINGS.ENT_TEAM_ID, alive = true },
+        { team = SETTINGS.INFERNAL_TEAM_ID, alive = true },
+    })
 
-    assert(WinConditions.matchEnded == true, "Win condition should be checked after elimination")
+    EntGhost:CreateGhost(hero)
+
+    local count = EliminationHandler:CountRemainingEnts()
+    assert(count == 1, "Count should exclude ghosts, got " .. count)
 end
 
 function TestEliminationHandler:test_announcement_fires()
-    -- Verified via CustomGameEventManager:Send_ServerToAllClients call
     EliminationHandler:Init()
+    EntGhost:Init()
+    InfernalRespawn:Init()
     Snowball:Init()
 
     local announced = false

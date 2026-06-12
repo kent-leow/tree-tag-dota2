@@ -58,6 +58,8 @@ function BuildingSystem:Construct(playerID, buildingType, position, tier)
     if buildingType == "economy" then
         local bonus = buildingDef.incomeBonus[buildingData.tier]
         Economy:AddBuildingBonus(playerID, bonus.gold, bonus.lumber)
+    elseif buildingType == "giant_tree" then
+        buildingData.isWispSpawner = true
     end
 
     return buildingData, nil

@@ -78,4 +78,39 @@ function TestBuildingSystem:test_destruction_cleanup()
     assert(#BuildingSystem.buildings == 0, "Building should be removed on destruction")
 end
 
+function TestBuildingSystem:test_giant_tree_can_be_constructed()
+    BuildingSystem:Init()
+    Economy:Init()
+    Economy:RegisterPlayer(0)
+    Economy:Earn(0, 500, 100)
+
+    MockGridNav:SetTrees({
+        { pos = Vector(100, 100, 0), standing = true },
+        { pos = Vector(120, 120, 0), standing = true },
+        { pos = Vector(140, 140, 0), standing = true },
+    })
+
+    local building, err = BuildingSystem:Construct(0, "giant_tree", Vector(110, 110, 0), 1)
+
+    assert(building ~= nil, "Giant tree should be constructed: " .. (err or ""))
+    assert(building.buildingType == "giant_tree", "Building type should be giant_tree")
+end
+
+function TestBuildingSystem:test_giant_tree_registers_as_wisp_spawner()
+    BuildingSystem:Init()
+    Economy:Init()
+    Economy:RegisterPlayer(0)
+    Economy:Earn(0, 500, 100)
+
+    MockGridNav:SetTrees({
+        { pos = Vector(100, 100, 0), standing = true },
+        { pos = Vector(120, 120, 0), standing = true },
+        { pos = Vector(140, 140, 0), standing = true },
+    })
+
+    local building, err = BuildingSystem:Construct(0, "giant_tree", Vector(110, 110, 0), 1)
+
+    assert(building.isWispSpawner == true, "Giant tree should be registered as wisp spawner")
+end
+
 RunTests(TestBuildingSystem, "BuildingSystem")

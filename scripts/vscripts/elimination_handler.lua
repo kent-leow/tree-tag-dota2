@@ -1,6 +1,8 @@
 require("settings")
 require("snowball")
 require("win_conditions")
+require("ent_ghost")
+require("infernal_respawn")
 
 EliminationHandler = EliminationHandler or {}
 
@@ -26,9 +28,11 @@ end
 
 function EliminationHandler:OnEntEliminated(hero)
     local playerID = hero:GetPlayerID()
-    self.eliminatedPlayers[playerID] = true
+
+    EntGhost:CreateGhost(hero)
 
     Snowball:OnEntEliminated()
+    InfernalRespawn:OnEntKilled()
 
     self:AnnounceElimination(hero)
 
@@ -36,11 +40,11 @@ function EliminationHandler:OnEntEliminated(hero)
 end
 
 function EliminationHandler:OnInfernalKilled(hero)
-    WinConditions:CheckEliminationVictory()
+    InfernalRespawn:OnInfernalDeath(hero)
 end
 
 function EliminationHandler:IsEliminated(playerID)
-    return self.eliminatedPlayers[playerID] == true
+    return EntGhost:IsGhost(playerID)
 end
 
 function EliminationHandler:AnnounceElimination(hero)
@@ -56,7 +60,8 @@ function EliminationHandler:CountRemainingEnts()
     local heroes = HeroList:GetAllHeroes()
     for _, hero in pairs(heroes) do
         if hero:GetTeamNumber() == SETTINGS.ENT_TEAM_ID and hero:IsAlive() then
-            if not self:IsEliminated(hero:GetPlayerID()) then
+            local playerID = hero:GetPlayerID()
+            if not EntGhost:IsGhost(playerID) then
                 count = count + 1
             end
         end

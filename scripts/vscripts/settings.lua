@@ -67,6 +67,13 @@ SETTINGS = {
             },
             tierGates = { 1, 2, 3 },
         },
+        giant_tree = {
+            unitName = "npc_dota_building_giant_tree",
+            costs = {
+                { gold = 150, lumber = 0 },
+            },
+            tierGates = { 1 },
+        },
     },
 
     -- Economy
@@ -78,6 +85,57 @@ SETTINGS = {
         { gold = 10, lumber = 4 },
         { gold = 18, lumber = 7 },
         { gold = 30, lumber = 12 },
+    },
+
+    -- Kill Resource
+    KILL_VALUE_PER_ENT = 3,
+    KILL_VALUE_PER_CREEP = 1,
+    KILL_VALUE_PER_GUARDIAN = 2,
+
+    -- Wisp
+    WISP_SPAWN_COST = 80,
+    WISP_HARVEST_RATE = 3,
+    WISP_HARVEST_INTERVAL = 10,
+
+    -- Tavern
+    TAVERN_MELEE_COST = 150,
+    TAVERN_RANGED_COST = 200,
+    TAVERN_CREEP_CAP = 3,
+    TAVERN_MELEE_DAMAGE = 9999,
+    TAVERN_RANGED_DAMAGE = 250,
+
+    -- Respawn
+    INFERNAL_RESPAWN_BASE = 15,
+    INFERNAL_RESPAWN_PER_KILL = 10,
+    ENT_GHOST_MOVE_RADIUS = 500,
+    ENT_CHANNEL_DURATION = 5,
+    MAP_CENTRE_POSITION = Vector(0, 0, 0),
+
+    -- Rage Phase
+    RAGE_TRIGGER_TIME = 180,
+    RAGE_BURN_RADIUS_MULTIPLIER = 3.0,
+    RAGE_SPEED_BONUS = 100,
+
+    -- Team Config
+    MIN_INFERNALS = 1,
+    MAX_INFERNALS = 3,
+    MIN_ENTS = 1,
+    MAX_ENTS = 9,
+    MAX_TOTAL_PLAYERS = 12,
+    BALANCE_SCALING = {
+        { infernals = 1, ents = 9, income_mult = 1.5, snowball_mult = 0.7, timer_mult = 0.8 },
+        { infernals = 2, ents = 9, income_mult = 1.2, snowball_mult = 0.85, timer_mult = 0.9 },
+        { infernals = 3, ents = 9, income_mult = 1.0, snowball_mult = 1.0, timer_mult = 1.0 },
+        { infernals = 3, ents = 3, income_mult = 0.8, snowball_mult = 1.2, timer_mult = 0.6 },
+        { infernals = 2, ents = 2, income_mult = 0.8, snowball_mult = 1.2, timer_mult = 0.5 },
+        { infernals = 1, ents = 1, income_mult = 0.6, snowball_mult = 1.5, timer_mult = 0.4 },
+    },
+
+    -- Resource Exchange
+    EXCHANGE_DEFS = {
+        advanced_guardian = { lumber = 50, kill = 0, unitName = "npc_dota_guardian_t2" },
+        elite_guardian = { lumber = 0, kill = 5, unitName = "npc_dota_guardian_t3" },
+        fortified_barrier = { lumber = 100, kill = 3, buildingType = "defensive" },
     },
 }
 

@@ -2,7 +2,51 @@ require("settings")
 
 Balance = Balance or {}
 
+Balance.incomeMult = 1.0
+Balance.snowballMult = 1.0
+Balance.timerMult = 1.0
+
 function Balance:Init()
+    self.incomeMult = 1.0
+    self.snowballMult = 1.0
+    self.timerMult = 1.0
+end
+
+function Balance:ScaleForTeamSize(infernalCount, entCount)
+    local bestMatch = nil
+    local bestDist = math.huge
+
+    for _, entry in ipairs(SETTINGS.BALANCE_SCALING) do
+        local dist = math.abs(entry.infernals - infernalCount) + math.abs(entry.ents - entCount)
+        if dist < bestDist then
+            bestDist = dist
+            bestMatch = entry
+        end
+    end
+
+    if bestMatch then
+        self.incomeMult = bestMatch.income_mult
+        self.snowballMult = bestMatch.snowball_mult
+        self.timerMult = bestMatch.timer_mult
+    end
+
+    return {
+        incomeMult = self.incomeMult,
+        snowballMult = self.snowballMult,
+        timerMult = self.timerMult,
+    }
+end
+
+function Balance:GetIncomeMult()
+    return self.incomeMult
+end
+
+function Balance:GetSnowballMult()
+    return self.snowballMult
+end
+
+function Balance:GetTimerMult()
+    return self.timerMult
 end
 
 function Balance:GetInfernalPower(gameMinute)

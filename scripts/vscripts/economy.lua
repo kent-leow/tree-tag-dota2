@@ -13,6 +13,7 @@ function Economy:RegisterPlayer(playerID)
     self.playerData[playerID] = {
         gold = 0,
         lumber = 0,
+        kill = 0,
         tier = 1,
         buildingBonus = { gold = 0, lumber = 0 },
     }
@@ -37,8 +38,8 @@ end
 
 function Economy:GetBalance(playerID)
     local data = self.playerData[playerID]
-    if not data then return { gold = 0, lumber = 0 } end
-    return { gold = data.gold, lumber = data.lumber }
+    if not data then return { gold = 0, lumber = 0, kill = 0 } end
+    return { gold = data.gold, lumber = data.lumber, kill = data.kill }
 end
 
 function Economy:GetIncomeRate(playerID)
@@ -66,6 +67,34 @@ function Economy:Earn(playerID, gold, lumber)
     if not data then return end
     data.gold = data.gold + (gold or 0)
     data.lumber = data.lumber + (lumber or 0)
+end
+
+function Economy:EarnKill(playerID, amount)
+    local data = self.playerData[playerID]
+    if not data then return end
+    data.kill = data.kill + (amount or 0)
+end
+
+function Economy:GetKillBalance(playerID)
+    local data = self.playerData[playerID]
+    if not data then return 0 end
+    return data.kill
+end
+
+function Economy:SpendKill(playerID, amount)
+    local data = self.playerData[playerID]
+    if not data then return false end
+    if data.kill < amount then return false end
+    data.kill = data.kill - amount
+    return true
+end
+
+function Economy:SpendLumber(playerID, amount)
+    local data = self.playerData[playerID]
+    if not data then return false end
+    if data.lumber < amount then return false end
+    data.lumber = data.lumber - amount
+    return true
 end
 
 function Economy:AddBuildingBonus(playerID, goldBonus, lumberBonus)

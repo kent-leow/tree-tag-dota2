@@ -4,10 +4,20 @@ TreeManager = TreeManager or {}
 
 TreeManager.destroyedTrees = {}
 TreeManager.eventListeners = {}
+TreeManager.rageMultiplier = 1.0
 
 function TreeManager:Init()
     self.destroyedTrees = {}
     self.eventListeners = {}
+    self.rageMultiplier = 1.0
+end
+
+function TreeManager:SetRageMultiplier(multiplier)
+    self.rageMultiplier = multiplier
+end
+
+function TreeManager:GetEffectiveBurnRadius()
+    return SETTINGS.TREE_BURN_RADIUS * self.rageMultiplier
 end
 
 function TreeManager:GetTreesInRadius(center, radius)

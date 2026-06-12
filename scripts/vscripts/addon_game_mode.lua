@@ -1,6 +1,16 @@
 require("settings")
 require("team_assignment")
 require("win_conditions")
+require("kill_reward")
+require("wisp_harvester")
+require("resource_exchange")
+require("tavern")
+require("creep_combat")
+require("infernal_respawn")
+require("ent_ghost")
+require("ent_channel_respawn")
+require("infernal_rage")
+require("balance")
 
 if CTreeTagGameMode == nil then
     CTreeTagGameMode = class({})
@@ -15,12 +25,24 @@ function Activate()
 end
 
 function CTreeTagGameMode:InitGameMode()
-    GameRules:SetCustomGameTeamMaxPlayers(SETTINGS.ENT_TEAM_ID, SETTINGS.TEAM_ENT_COUNT)
-    GameRules:SetCustomGameTeamMaxPlayers(SETTINGS.INFERNAL_TEAM_ID, SETTINGS.TEAM_INFERNAL_COUNT)
+    local infernalCount = SETTINGS.TEAM_INFERNAL_COUNT
+    local entCount = SETTINGS.TEAM_ENT_COUNT
+
+    if self.customInfernals and self.customEnts then
+        infernalCount = self.customInfernals
+        entCount = self.customEnts
+        TeamAssignment:Configure(infernalCount, entCount)
+    end
+
+    GameRules:SetCustomGameTeamMaxPlayers(SETTINGS.ENT_TEAM_ID, entCount)
+    GameRules:SetCustomGameTeamMaxPlayers(SETTINGS.INFERNAL_TEAM_ID, infernalCount)
     GameRules:SetGameTime(0)
     GameRules:SetTimeOfDay(0.25)
 
-    self.matchTimer = SETTINGS.MATCH_DURATION
+    Balance:Init()
+    Balance:ScaleForTeamSize(infernalCount, entCount)
+
+    self.matchTimer = math.floor(SETTINGS.MATCH_DURATION * Balance:GetTimerMult())
     self.matchStarted = false
 
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(CTreeTagGameMode, "OnGameStateChange"), self)
@@ -35,6 +57,15 @@ function CTreeTagGameMode:OnGameStateChange()
     elseif state == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
         self.matchStarted = true
         WinConditions:Init(self)
+        KillReward:Init()
+        WispHarvester:Init()
+        ResourceExchange:Init()
+        Tavern:Init()
+        CreepCombat:Init()
+        InfernalRespawn:Init()
+        EntGhost:Init()
+        EntChannelRespawn:Init()
+        InfernalRage:Init(self)
     end
 end
 

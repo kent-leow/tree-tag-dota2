@@ -44,6 +44,100 @@
 	}
 
 	//=================================================================================================================
+	// Hired Creep: Melee Scout (Infernal)
+	//=================================================================================================================
+	"npc_dota_hired_melee"
+	{
+		"BaseClass"					"npc_dota_creature"
+		"Model"						"models/creeps/lane_creeps/creep_bad_melee/creep_bad_melee.vmdl"
+		"Level"						"1"
+		"ModelScale"				"1.0"
+
+		"Ability1"					""
+		"Ability2"					""
+		"Ability3"					""
+		"Ability4"					""
+
+		"ArmorPhysical"				"0"
+
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"9999"
+		"AttackDamageMax"			"9999"
+		"AttackRate"				"1.5"
+		"AttackRange"				"128"
+		"AttackAnimationPoint"		"0.4"
+		"AttackAcquisitionRange"	"500"
+
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"350"
+
+		"StatusHealth"				"1"
+		"StatusHealthRegen"			"0"
+		"StatusMana"				"0"
+		"StatusManaRegen"			"0"
+
+		"VisionDaytimeRange"		"800"
+		"VisionNighttimeRange"		"600"
+
+		"TeamName"					"DOTA_TEAM_BADGUYS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"BountyXP"					"0"
+		"BountyGoldMin"				"0"
+		"BountyGoldMax"				"0"
+	}
+
+	//=================================================================================================================
+	// Hired Creep: Ranged Scout (Infernal)
+	//=================================================================================================================
+	"npc_dota_hired_ranged"
+	{
+		"BaseClass"					"npc_dota_creature"
+		"Model"						"models/creeps/lane_creeps/creep_bad_ranged/creep_bad_ranged.vmdl"
+		"Level"						"1"
+		"ModelScale"				"1.0"
+
+		"Ability1"					""
+		"Ability2"					""
+		"Ability3"					""
+		"Ability4"					""
+
+		"ArmorPhysical"				"0"
+
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"250"
+		"AttackDamageMax"			"250"
+		"AttackRate"				"1.5"
+		"AttackRange"				"500"
+		"AttackAnimationPoint"		"0.4"
+		"AttackAcquisitionRange"	"700"
+		"ProjectileModel"			"particles/neutral_fx/gnoll_base_attack.vpcf"
+		"ProjectileSpeed"			"1200"
+
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"330"
+
+		"StatusHealth"				"1"
+		"StatusHealthRegen"			"0"
+		"StatusMana"				"0"
+		"StatusManaRegen"			"0"
+
+		"VisionDaytimeRange"		"1000"
+		"VisionNighttimeRange"		"800"
+
+		"TeamName"					"DOTA_TEAM_BADGUYS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"BountyXP"					"0"
+		"BountyGoldMin"				"0"
+		"BountyGoldMax"				"0"
+	}
+
+	//=================================================================================================================
 	// Guardian: Treant Defender (T1)
 	//=================================================================================================================
 	"npc_dota_guardian_t1"
@@ -295,6 +389,44 @@
 		"BountyXP"					"30"
 		"BountyGoldMin"				"25"
 		"BountyGoldMax"				"25"
+	}
+
+	//=================================================================================================================
+	// Building: Giant Tree (Wisp Spawner)
+	//=================================================================================================================
+	"npc_dota_building_giant_tree"
+	{
+		"BaseClass"					"npc_dota_creature"
+		"Model"						"models/props_structures/tower_good.vmdl"
+		"Level"						"1"
+		"ModelScale"				"1.0"
+
+		"Ability1"					""
+		"Ability2"					""
+		"Ability3"					""
+		"Ability4"					""
+
+		"ArmorPhysical"				"5"
+
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		"StatusHealth"				"600"
+		"StatusHealthRegen"			"3.0"
+		"StatusMana"				"0"
+		"StatusManaRegen"			"0"
+
+		"VisionDaytimeRange"		"600"
+		"VisionNighttimeRange"		"400"
+
+		"TeamName"					"DOTA_TEAM_GOODGUYS"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+
+		"BountyXP"					"40"
+		"BountyGoldMin"				"35"
+		"BountyGoldMax"				"35"
 	}
 
 	//=================================================================================================================

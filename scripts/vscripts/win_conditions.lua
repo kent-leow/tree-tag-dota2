@@ -20,20 +20,17 @@ end
 function WinConditions:CheckEliminationVictory()
     if self.matchEnded then return end
 
-    local entsAlive = self:CountAliveHeroes(SETTINGS.ENT_TEAM_ID)
-    local infernalsAlive = self:CountAliveHeroes(SETTINGS.INFERNAL_TEAM_ID)
+    local entsAlive = self:CountAliveEnts()
 
     if entsAlive == 0 then
         self:EndMatch(SETTINGS.INFERNAL_TEAM_ID)
-    elseif infernalsAlive == 0 then
-        self:EndMatch(SETTINGS.ENT_TEAM_ID)
     end
 end
 
 function WinConditions:OnTimerExpired()
     if self.matchEnded then return end
 
-    local entsAlive = self:CountAliveHeroes(SETTINGS.ENT_TEAM_ID)
+    local entsAlive = self:CountAliveEnts()
     if entsAlive > 0 then
         self:EndMatch(SETTINGS.ENT_TEAM_ID)
     else
@@ -44,6 +41,17 @@ end
 function WinConditions:EndMatch(winningTeam)
     self.matchEnded = true
     GameRules:SetGameWinner(winningTeam)
+end
+
+function WinConditions:CountAliveEnts()
+    local count = 0
+    local heroes = HeroList:GetAllHeroes()
+    for _, hero in pairs(heroes) do
+        if hero:GetTeamNumber() == SETTINGS.ENT_TEAM_ID and hero:IsAlive() then
+            count = count + 1
+        end
+    end
+    return count
 end
 
 function WinConditions:CountAliveHeroes(teamID)

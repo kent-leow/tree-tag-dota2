@@ -75,4 +75,19 @@ function TestTreeManager:test_event_emitted_on_regrow()
     assert(eventFired, "trees_regrown event should fire")
 end
 
+function TestTreeManager:test_normal_burn_radius_without_rage()
+    TreeManager:Init()
+    local radius = TreeManager:GetEffectiveBurnRadius()
+    assert(radius == SETTINGS.TREE_BURN_RADIUS, "Normal burn radius should equal TREE_BURN_RADIUS")
+end
+
+function TestTreeManager:test_expanded_burn_radius_during_rage()
+    TreeManager:Init()
+    TreeManager:SetRageMultiplier(SETTINGS.RAGE_BURN_RADIUS_MULTIPLIER)
+
+    local radius = TreeManager:GetEffectiveBurnRadius()
+    local expected = SETTINGS.TREE_BURN_RADIUS * SETTINGS.RAGE_BURN_RADIUS_MULTIPLIER
+    assert(radius == expected, "Rage burn radius should be " .. expected .. ", got " .. radius)
+end
+
 RunTests(TestTreeManager, "TreeManager")

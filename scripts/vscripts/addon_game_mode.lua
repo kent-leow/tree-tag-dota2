@@ -36,7 +36,6 @@ function CTreeTagGameMode:InitGameMode()
 
     GameRules:SetCustomGameTeamMaxPlayers(SETTINGS.ENT_TEAM_ID, entCount)
     GameRules:SetCustomGameTeamMaxPlayers(SETTINGS.INFERNAL_TEAM_ID, infernalCount)
-    GameRules:SetGameTime(0)
     GameRules:SetTimeOfDay(0.25)
     GameRules:SetHeroSelectionTime(SETTINGS.INFERNAL_PICK_TIME)
     GameRules:SetPreGameTime(SETTINGS.ENT_HEAD_START_DURATION)

@@ -46,7 +46,7 @@ function Tavern:OnEntityKilled(event)
     local killedUnit = EntIndexToHScript(event.entindex_killed)
     if not killedUnit then return end
 
-    local unitName = killedUnit:GetUnitName and killedUnit:GetUnitName() or nil
+    local unitName = killedUnit.GetUnitName and killedUnit:GetUnitName() or nil
     if unitName == "npc_dota_hired_melee" or unitName == "npc_dota_hired_ranged" then
         self:OnCreepKilled(killedUnit)
     end

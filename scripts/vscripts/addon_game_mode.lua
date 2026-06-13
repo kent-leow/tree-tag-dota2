@@ -17,6 +17,10 @@ if CTreeTagGameMode == nil then
 end
 
 function Precache(context)
+    PrecacheUnitByNameSync("npc_dota_hero_treant", context)
+    PrecacheUnitByNameSync("npc_dota_hero_doom_bringer", context)
+    PrecacheUnitByNameSync("npc_dota_hero_night_stalker", context)
+    PrecacheUnitByNameSync("npc_dota_hero_warlock", context)
 end
 
 function Activate()

@@ -4,4 +4,7 @@
     game_version = 1
     maps = "maps/template_map"
     IsPlayableInToolsMode = true
+    TeamCount = 2
+    Team1 = { MaxPlayers = 9 }
+    Team2 = { MaxPlayers = 3 }
 }

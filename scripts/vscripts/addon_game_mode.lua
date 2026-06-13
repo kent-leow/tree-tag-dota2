@@ -38,6 +38,14 @@ function CTreeTagGameMode:InitGameMode()
     GameRules:SetCustomGameTeamMaxPlayers(SETTINGS.INFERNAL_TEAM_ID, infernalCount)
     GameRules:SetGameTime(0)
     GameRules:SetTimeOfDay(0.25)
+    GameRules:SetHeroSelectionTime(SETTINGS.INFERNAL_PICK_TIME)
+    GameRules:SetPreGameTime(SETTINGS.ENT_HEAD_START_DURATION)
+    GameRules:SetCustomGameAllowHeroPickMusic(false)
+    GameRules:SetCustomGameAllowMusicAtGameStart(false)
+
+    local gm = GameRules:GetGameModeEntity()
+    gm:SetAnnouncerDisabled(true)
+    gm:SetHeroSelectionFilter(Dynamic_Wrap(CTreeTagGameMode, "HeroPickFilter"), self)
 
     Balance:Init()
     Balance:ScaleForTeamSize(infernalCount, entCount)
@@ -54,6 +62,9 @@ function CTreeTagGameMode:OnGameStateChange()
 
     if state == DOTA_GAMERULES_STATE_HERO_SELECTION then
         TeamAssignment:AssignTeams()
+        self:AutoAssignEntHeroes()
+    elseif state == DOTA_GAMERULES_STATE_PRE_GAME then
+        self:StartHeadStart()
     elseif state == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
         self.matchStarted = true
         WinConditions:Init(self)
@@ -66,6 +77,43 @@ function CTreeTagGameMode:OnGameStateChange()
         EntGhost:Init()
         EntChannelRespawn:Init()
         InfernalRage:Init(self)
+    end
+end
+
+function CTreeTagGameMode:AutoAssignEntHeroes()
+    for playerID = 0, PlayerResource:GetPlayerCount() - 1 do
+        if PlayerResource:IsValidPlayerID(playerID) then
+            if PlayerResource:GetTeam(playerID) == SETTINGS.ENT_TEAM_ID then
+                PlayerResource:SetSelectedHero(playerID, "npc_dota_hero_treant")
+            end
+        end
+    end
+end
+
+function CTreeTagGameMode:HeroPickFilter(event)
+    local playerID = event.playerID
+    local heroName = event.hero
+    local team = PlayerResource:GetTeam(playerID)
+
+    if team == SETTINGS.ENT_TEAM_ID then
+        return heroName == "npc_dota_hero_treant"
+    elseif team == SETTINGS.INFERNAL_TEAM_ID then
+        local allowed = {
+            npc_dota_hero_doom_bringer = true,
+            npc_dota_hero_night_stalker = true,
+            npc_dota_hero_warlock = true,
+        }
+        return allowed[heroName] == true
+    end
+    return false
+end
+
+function CTreeTagGameMode:StartHeadStart()
+    local heroes = HeroList:GetAllHeroes()
+    for _, hero in pairs(heroes) do
+        if hero:GetTeamNumber() == SETTINGS.INFERNAL_TEAM_ID then
+            hero:AddNewModifier(hero, nil, "modifier_stunned", {duration = SETTINGS.ENT_HEAD_START_DURATION})
+        end
     end
 end
 
